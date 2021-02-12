@@ -1,5 +1,3 @@
-using System;
-
 namespace ASPtask.Models
 {
     public class ErrorViewModel

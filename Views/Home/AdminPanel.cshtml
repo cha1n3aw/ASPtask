@@ -1,7 +1,11 @@
-﻿<p>
-    <a asp-controller="EditSurvey" asp-action="Index">Show questions</a>
-    <br>
-    <a asp-controller="Universities" asp-action="Index">Show universities</a>
-    <br>
-    <a asp-controller="Students" asp-action="Index">Show students</a>
-</p>
+﻿<div>
+    <input type="button" value="Edit survey questions" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Index", "EditSurvey")'" />
+</div>
+<br>
+<div>
+    <input type="button" value="Edit universities" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Index", "Universities")'" />
+</div>
+<br>
+<div>
+    <input type="button" value="Edit students" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Index", "Students")'" />
+</div>

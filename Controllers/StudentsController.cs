@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
+using Microsoft.AspNetCore.Http;
 using System.Dynamic;
+using System;
 
 namespace ASPtask.Controllers
 {
@@ -43,16 +45,25 @@ namespace ASPtask.Controllers
         }
         public IActionResult Create()
         {
-            dynamic mymodel = new ExpandoObject();
-            mymodel.Students = GetStudents();
-            mymodel.Questions = GetQuestions();
-            mymodel.Universities = GetUniversities();
-            return View(mymodel);
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddNewStudentEntry(ViewModel viewmodel)
+        {
+            _context.Students.Add(viewmodel.OneStudent);
+            _context.SaveChanges();
+            viewmodel = new ViewModel { AllStudents = GetStudents(), AllQuestions = GetQuestions(), AllUniversities = GetUniversities(), OneStudent=new Student { } };
+            return View(viewmodel);
+        }
+        public IActionResult AddNewStudentEntry()
+        {
+            ViewModel viewmodel = new ViewModel { AllStudents=GetStudents(), AllQuestions=GetQuestions(), AllUniversities=GetUniversities(), OneStudent = new Student { } };
+            return View(viewmodel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentID,FirstName,LastName,Course,UniversityID")] Student student)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,EMail,Course,UniversityID,Answers")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +74,7 @@ namespace ASPtask.Controllers
             return View(student);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int?id)
         {
             if (id == null) return NotFound();
             var student = await _context.Students.FindAsync(id);
@@ -73,7 +84,7 @@ namespace ASPtask.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,Course,UniversityID")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,EMail,Course,UniversityID")] Student student)
         {
             if (id != student.StudentID) return NotFound();
             if (ModelState.IsValid)

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using ASPtask.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ASPtask.Data
 {
@@ -17,13 +16,13 @@ namespace ASPtask.Data
                     new University{UniversityName="CSU",UniversityPoints=2},
                     new University{UniversityName="KFU",UniversityPoints=3}
                 };
-                foreach (University unv in universities)
-                    context.Universities.Add(unv);
+                foreach (University unv in universities) context.Universities.Add(unv);
                 context.SaveChanges();
             }
 
             if (!context.Students.Any())
             {
+                /*
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     var students = new Student[]
@@ -39,6 +38,16 @@ namespace ASPtask.Data
                     context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT [dbo].[Students] OFF");
                     transaction.Commit();
                 }
+                */
+                var students = new Student[]
+                {
+                    new Student{FirstName="Carson",LastName="Alexander",Course=1,UniversityID=1,EMail="fdf@gmail.com"},
+                    new Student{FirstName="Meredith",LastName="Alonso",Course=2,UniversityID=2,EMail="dfery@yahoo.com"},
+                    new Student{FirstName="Arturo",LastName="Anand",Course=3,UniversityID=3,EMail="somemail@ya.ru"},
+                    new Student{FirstName="Gytis",LastName="Barzdukas",Course=4,UniversityID=1,EMail="fdfdf@mail.ru"}
+                };
+                foreach (Student std in students) context.Students.Add(std);
+                context.SaveChanges();
             }
 
             if (!context.Questions.Any())

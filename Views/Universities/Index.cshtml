@@ -14,31 +14,28 @@
             <th>
                 University:
             </th>
-            <th>
-                Points:
-            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @{
-            foreach (var item in Model.OrderByDescending(university => university.UniversityID))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UniversityName)
-                    </td>
-                    <th>
-                        @Html.DisplayFor(modelItem => item.UniversityPoints)
-                    </th>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.UniversityID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.UniversityID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.UniversityID">Delete</a>
-                    </td>
-                </tr>
-            }
+       @foreach (var item in Model.OrderByDescending(university => university.UniversityID))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UniversityName)
+                </td>
+                <th>
+                    @Html.DisplayFor(modelItem => item.UniversityPoints)
+                </th>
+                <td>
+                    <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "Universities", new { id=item.UniversityID })'" />
+                    <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "Universities", new { id=item.UniversityID })'" />
+                    <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "Universities", new { id=item.UniversityID })'" />
+                </td>
+            </tr>
         }
     </tbody>
 </table>
-<a asp-action="Create">Create</a>
+<div class="form-group">
+    <input type="button" value="Add" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Create", "Universities")'" />
+</div>

@@ -1,0 +1,106 @@
+﻿@model ASPtask.Models.ViewModel
+
+@{
+    ViewData["Title"] = "Take a Survey";
+}
+
+<h1>Complete a short survey:</h1>
+
+<form asp-action="AddNewStudentEntry">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="form-control"></div>
+        <input type="hidden" asp-for="OneStudent.StudentID" />
+        <div class="col">
+            <input asp-for="OneStudent.FirstName" class="form-control" placeholder="First Name" />
+            <span asp-validation-for="OneStudent.FirstName" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <input asp-for="OneStudent.LastName" class="form-control" placeholder="Last Name" />
+            <span asp-validation-for="OneStudent.LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <input asp-for="OneStudent.EMail" class="form-control" placeholder="E-Mail" />
+            <span asp-validation-for="OneStudent.EMail" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <select asp-for="OneStudent.Course" id="course" class="form-control">
+                <option selected>Choose your course</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <span asp-validation-for="OneStudent.Course" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <select asp-for="OneStudent.UniversityID" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option selected>Choose your university</option>
+                @foreach (var university in Model.AllUniversities.OrderByDescending(university => university.UniversityPoints))
+                {
+                    <option value="@university.UniversityID">@university.UniversityName</option>
+                }
+            </select>
+            <span asp-validation-for="OneStudent.UniversityID" class="text-danger"></span>
+        </div>
+    </div>
+    <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Question:
+                </th>
+                <th>
+                    Answer:
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllQuestions.OrderByDescending(question => question.HasOptions))
+            {
+                <tr>
+                    <td>
+                        @item.QuestionContents
+                    </td>
+                    <td>
+                        @if (item.HasOptions)
+                        {
+                            if (!item.MultipleSelect)
+                                foreach (string option in item.Options.Split('&'))
+                                {
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="@item.ID" id="@item.ID" value="option1">
+                                        <label class="form-check-label" for="@item.ID">@option</label>
+                                    </div>
+                                }
+                            else
+                                foreach (var option in item.Options.Split('&'))
+                                {
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="@item.ID" id="@item.ID" value="option1">
+                                        <label class="form-check-label" for="@item.ID">@option</label>
+                                    </div>
+                                }
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Answer">
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>

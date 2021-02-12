@@ -4,33 +4,26 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Create university</h1>
 
-<h4>University</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UniversityName" class="control-label"></label>
-                <input asp-for="UniversityName" class="form-control" />
+                <input asp-for="UniversityName" class="form-control" placeholder="University Name"/>
                 <span asp-validation-for="UniversityName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UniversityPoints" class="control-label"></label>
-                <input asp-for="UniversityPoints" class="form-control" />
+                <input asp-for="UniversityPoints" class="form-control" placeholder="University Points"/>
                 <span asp-validation-for="UniversityPoints" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Add" class="btn btn-outline-primary" />
+                <input type="button" value="Go Back" class="btn btn-outline-danger" onclick="location.href='@Url.Action("AdminPanel", "Home")'" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-controller="Home" asp-action="AdminPanel">Back to admin panel</a>
 </div>
 
 @section Scripts {

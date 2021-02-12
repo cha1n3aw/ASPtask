@@ -61,7 +61,7 @@ namespace ASPtask.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,QuestionContents,HasOptions,MultipleSelect")] Question question)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,QuestionContents,HasOptions,MultipleSelect,Options")] Question question)
         {
             if (id != question.ID) return NotFound();
             if (ModelState.IsValid)
