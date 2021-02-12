@@ -21,9 +21,20 @@
             <input type="text" class="form-control" placeholder="E-Mail">
         </div>
         <div class="col">
+            <select id="course" class="form-control">
+                <option selected>Choose your course</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+        <div class="col">
             <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                 <option selected>Choose your university</option>
-                @foreach (var university in Model.Universities)
+                @foreach (var university in ((IEnumerable<University>)Model.Universities).OrderByDescending(university => university.UniversityPoints))
                 {
                     <option value="@university.UniversityID">@university.UniversityName</option>
                 }
@@ -46,7 +57,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Questions)//.OrderByDescending(question => question.HasOptions))
+        @foreach (var item in ((IEnumerable<Question>)Model.Questions).OrderByDescending(question => question.HasOptions))
         {
             <tr>
                 <td>
@@ -56,7 +67,7 @@
                     @if (item.HasOptions)
                     {
                         if (!item.MultipleSelect)
-                            foreach (var option in item.Options.Split('&'))
+                            foreach (string option in item.Options.Split('&'))
                             {
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="@item.ID" id="@item.ID" value="option1">

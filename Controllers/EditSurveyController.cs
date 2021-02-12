@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
-using System.Dynamic;
 
 namespace ASPtask.Controllers
 {
@@ -25,36 +23,24 @@ namespace ASPtask.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var question = await _context.Questions
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (question == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var question = await _context.Questions.FirstOrDefaultAsync(m => m.ID == id);
+            if (question == null) return NotFound();
             return View(question);
         }
         public IActionResult TakeSurvey()
         {
             return View();
         }
-        // GET: EditSurvey/Create
+
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: EditSurvey/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,QuestionContents,HasOptions,MultipleSelect")] Question question)
+        public async Task<IActionResult> Create([Bind("ID,QuestionContents,HasOptions,MultipleSelect,Options")] Question question)
         {
             if (ModelState.IsValid)
             {
@@ -65,34 +51,19 @@ namespace ASPtask.Controllers
             return View(question);
         }
 
-        // GET: EditSurvey/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var question = await _context.Questions.FindAsync(id);
-            if (question == null)
-            {
-                return NotFound();
-            }
+            if (question == null) return NotFound();
             return View(question);
         }
 
-        // POST: EditSurvey/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,QuestionContents,HasOptions,MultipleSelect")] Question question)
         {
-            if (id != question.ID)
-            {
-                return NotFound();
-            }
-
+            if (id != question.ID) return NotFound();
             if (ModelState.IsValid)
             {
                 try
@@ -102,39 +73,22 @@ namespace ASPtask.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionExists(question.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!QuestionExists(question.ID)) return NotFound();
+                    else throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(question);
         }
 
-        // GET: EditSurvey/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var question = await _context.Questions
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (question == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var question = await _context.Questions.FirstOrDefaultAsync(m => m.ID == id);
+            if (question == null) return NotFound();
             return View(question);
         }
 
-        // POST: EditSurvey/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
