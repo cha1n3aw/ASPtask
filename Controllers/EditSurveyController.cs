@@ -42,7 +42,10 @@ namespace ASPtask.Controllers
 
             return View(question);
         }
-
+        public IActionResult TakeSurvey()
+        {
+            return View();
+        }
         // GET: EditSurvey/Create
         public IActionResult Create()
         {

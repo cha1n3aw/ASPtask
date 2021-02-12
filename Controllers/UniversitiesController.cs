@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
@@ -54,7 +51,7 @@ namespace ASPtask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UniversityID,UniversityName,UniversityRanking")] University university)
+        public async Task<IActionResult> Create([Bind("UniversityID,UniversityName,UniversityPoints")] University university)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +83,7 @@ namespace ASPtask.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UniversityID,UniversityName,UniversityRanking")] University university)
+        public async Task<IActionResult> Edit(int id, [Bind("UniversityID,UniversityName,UniversityPoints")] University university)
         {
             if (id != university.UniversityID)
             {

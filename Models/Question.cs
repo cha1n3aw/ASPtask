@@ -11,6 +11,6 @@ namespace ASPtask.Models
         public string QuestionContents { get; set; }
         public bool HasOptions { get; set; }
         public bool MultipleSelect { get; set; }
-        public List<AnswerOption> AnswerOptions { get; set; }
+        public string Options { get; set; }
     }
 }

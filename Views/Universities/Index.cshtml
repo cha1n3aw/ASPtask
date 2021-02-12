@@ -9,31 +9,43 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UniversityName)
+                Rank
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UniversityPoints)
+                University
+            </th>
+            <th>
+                Points
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UniversityName)
-            </td>
-            <th>
-                @Html.DisplayFor(modelItem => item.UniversityPoints)
-            </th>
-            <td>
-                <!--
-                <a asp-action="Edit" asp-route-id="@item.UniversityID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UniversityID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UniversityID">Delete</a>
-                -->
-            </td>
-        </tr>
-}
-    </tbody>
+        @{
+            int c = 0;
+            foreach (var item in Model.OrderByDescending(university => university.UniversityPoints))
+            {
+                c++;
+                <tr>
+                    <td>
+                        @c
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UniversityName)
+                    </td>
+                    <th>
+                        @Html.DisplayFor(modelItem => item.UniversityPoints)
+                    </th>
+                    <td>
+
+                    <!--
+                    <a asp-action="Edit" asp-route-id="@item.UniversityID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.UniversityID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.UniversityID">Delete</a>
+                    -->
+                    </td>
+                </tr>
+            }
+        }
+        </tbody>
 </table>

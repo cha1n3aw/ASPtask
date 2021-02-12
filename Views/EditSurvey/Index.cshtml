@@ -1,47 +1,63 @@
 ﻿@model IEnumerable<ASPtask.Models.Question>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Take a Survey";
 }
 
-<h1>Index</h1>
+<h1>Complete a short survey:</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionContents)
+                Question:
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HasOptions)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MultipleSelect)
+                Answer
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuestionContents)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HasOptions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MultipleSelect)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+         {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionContents)
+                </td>
+                <td>
+                    @if (item.HasOptions)
+                    {
+                        if (!item.MultipleSelect)
+                            foreach (var option in item.Options.Split('&'))
+                            {
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="@item.ID" id="@item.ID" value="option1">
+                                    <label class="form-check-label" for="@item.ID">@option</label>
+                                </div>
+                            }
+                        else
+                            foreach (var option in item.Options.Split('&'))
+                            {
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="@item.ID" id="@item.ID" value="option1">
+                                    <label class="form-check-label" for="@item.ID">@option</label>
+                                </div>
+                            }
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Answer">
+                        </div>
+                    }
+                </td>
+                <td>
+                    <!--<a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>-->
+                </td>
+            </tr>
+         }
     </tbody>
 </table>

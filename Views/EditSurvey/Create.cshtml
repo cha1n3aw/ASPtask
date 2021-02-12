@@ -4,29 +4,32 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Create a new question</h1>
 
-<h4>Question</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="QuestionContents" class="control-label"></label>
-                <input asp-for="QuestionContents" class="form-control" />
+                <input asp-for="QuestionContents" class="form-control" placeholder="Question text" />
                 <span asp-validation-for="QuestionContents" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <input asp-for="Options" class="form-control" placeholder="Options, separated by & sign" />
+                <span asp-validation-for="Options" class="text-danger"></span>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasOptions" /> @Html.DisplayNameFor(model => model.HasOptions)
+                    <input class="form-check-input" asp-for="HasOptions" /> Answer options
                 </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="MultipleSelect" /> @Html.DisplayNameFor(model => model.MultipleSelect)
+                    <input class="form-check-input" asp-for="MultipleSelect" /> Multiple answers selection
                 </label>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -35,7 +38,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="AdminPanel">Back to admin panel</a>
 </div>
 
 @section Scripts {
