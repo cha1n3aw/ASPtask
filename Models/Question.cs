@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 
 namespace ASPtask.Models
 {
-    public class Class
+    public class Question
     {
+        public int ID { get; set; }
+        public string QuestionContents { get; set; }
+        public bool HasOptions { get; set; }
+        public bool MultipleSelect { get; set; }
+        public List<AnswerOption> AnswerOptions { get; set; }
     }
 }

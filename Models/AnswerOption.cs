@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace ASPtask.Models
 {
-    public class Answer
+    public class AnswerOption
     {
-        public int ID { get; set; }
-        public string AnswerContents { get; set; }
+        public string ID { get; set; }
+        public string Option { get; set; }
     }
 }
