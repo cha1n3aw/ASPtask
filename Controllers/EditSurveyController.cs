@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
+using System.Dynamic;
 
 namespace ASPtask.Controllers
 {
@@ -19,13 +18,11 @@ namespace ASPtask.Controllers
             _context = context;
         }
 
-        // GET: EditSurvey
         public async Task<IActionResult> Index()
         {
             return View(await _context.Questions.ToListAsync());
         }
 
-        // GET: EditSurvey/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

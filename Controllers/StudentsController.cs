@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
+using System.Dynamic;
 
 namespace ASPtask.Controllers
 {
@@ -42,11 +43,25 @@ namespace ASPtask.Controllers
 
             return View(student);
         }
-
-        // GET: Students/Create
+        public List<Student> GetStudents()
+        {
+            return _context.Students.ToList<Student>();
+        }
+        public List<Question> GetQuestions()
+        {
+            return _context.Questions.ToList<Question>();
+        }
+        public List<University> GetUniversities()
+        {
+            return _context.Universities.ToList<University>();
+        }
         public IActionResult Create()
         {
-            return View();
+            dynamic mymodel = new ExpandoObject();
+            mymodel.Students = GetStudents();
+            mymodel.Questions = GetQuestions();
+            mymodel.Universities = GetUniversities();
+            return View(mymodel);
         }
 
         // POST: Students/Create

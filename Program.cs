@@ -11,10 +11,11 @@ namespace ASPtask
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
+            var host = Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            { webBuilder.UseStartup<Startup>(); }).Build();
+            using (IServiceScope scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                IServiceProvider services = scope.ServiceProvider;
                 try
                 {
                     var context = services.GetRequiredService<StudentsDB>();
@@ -28,12 +29,5 @@ namespace ASPtask
             }
             host.Run();
         }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
     }
 }
