@@ -63,7 +63,7 @@ namespace ASPtask.Controllers
             viewmodel.OneStudent.Answers = answers;
             _context.Students.Add(viewmodel.OneStudent);
             _context.SaveChanges();
-            return View(new ViewModel { AllStudents = GetStudents(), AllQuestions = GetQuestions(), AllUniversities = GetUniversities(), OneStudent = new Student { } });
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult AddNewStudentEntry()
         {
@@ -92,25 +92,31 @@ namespace ASPtask.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,EMail,Course,UniversityID,Answers")] Student student)
+        public async Task<IActionResult> Edit(Student student)
         {
-            if (id != student.StudentID) return NotFound();
-            if (ModelState.IsValid)
+            Dictionary<int, List<string>> answers = new Dictionary<int, List<string>>();
+            var coll = Request.Form.ToList();
+            foreach (var str in coll)
             {
-                try
+                if (int.TryParse(str.Key, out int key))
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
+                    if (answers.ContainsKey(key)) answers[key].Add(str.Value);
+                    else answers.Add(key, new List<string> { str.Value });
+                    Debug.WriteLine(str.Value);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StudentExists(student.StudentID)) return NotFound();
-                    else throw;
-                }
-                return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            student.Answers = answers;
+            try
+            {
+                _context.Update(student);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!StudentExists(student.StudentID)) return NotFound();
+                else throw;
+            }
+            return RedirectToAction("Index", "Students");
         }
 
         public async Task<IActionResult> Delete(int? id)

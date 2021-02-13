@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>0a2e8687-3705-4ef5-bcbd-cda84c060544</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +16,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Owin" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 

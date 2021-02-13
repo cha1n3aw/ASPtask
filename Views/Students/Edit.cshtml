@@ -6,39 +6,52 @@
 
 <h1>Edit Student</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<form method="post" action="Edit">
+    <div class="row">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="StudentID" />
             <div class="form-group">
-                <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name" required minlength="2" maxlength="16" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="LastName" class="form-control" placeholder="Last Name"/>
+                <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name" required minlength="2" maxlength="16" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="EMail" class="form-control" placeholder="E-Mail"/>
+                <input type="email" asp-for="EMail" class="form-control" placeholder="E-Mail" required minlength="10" maxlength="30" />
                 <span asp-validation-for="EMail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Course" class="form-control" placeholder="Course" />
+                <input asp-for="Course" class="form-control" placeholder="Course" required />
                 <span asp-validation-for="Course" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="UniversityID" class="form-control" placeholder="University ID" />
+                <input asp-for="UniversityID" class="form-control" placeholder="University ID" required />
                 <span asp-validation-for="UniversityID" class="text-danger"></span>
             </div>
+
+            @if (Model.Answers != null) foreach (var answer in Model.Answers)
+            {
+                <div class="mb-3 row">
+                    <label for="@answer.Key" class="col-sm-2 col-form-label">@answer.Key : </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="@answer.Key" name="@answer.Key" value="@Html.DisplayFor(modelItem => answer.Value)" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <label> EMPTY </label>
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-outline-primary" />
                 <input type="button" value="Go Back" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Index", "Students")'" />
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</form>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
