@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ASPtask.Data;
 using ASPtask.Models;
-using Microsoft.AspNetCore.Http;
-using System.Dynamic;
+using System.Diagnostics;
 using System;
 
 namespace ASPtask.Controllers
@@ -50,15 +49,25 @@ namespace ASPtask.Controllers
         [HttpPost]
         public IActionResult AddNewStudentEntry(ViewModel viewmodel)
         {
+            Dictionary<int, List<string>> answers = new Dictionary<int, List<string>>();
+            var coll = Request.Form.ToList();
+                
+            foreach (var str in coll)
+            {
+                if (int.TryParse(str.Key, out int id))
+                {
+                    if (answers.ContainsKey(id)) answers[1].Add(str.Value);
+                    else answers.Add(id, new List<string> { str.Value });
+                }
+            }
+            viewmodel.OneStudent.Answers = answers;
             _context.Students.Add(viewmodel.OneStudent);
             _context.SaveChanges();
-            viewmodel = new ViewModel { AllStudents = GetStudents(), AllQuestions = GetQuestions(), AllUniversities = GetUniversities(), OneStudent=new Student { } };
-            return View(viewmodel);
+            return View(new ViewModel { AllStudents = GetStudents(), AllQuestions = GetQuestions(), AllUniversities = GetUniversities(), OneStudent = new Student { } });
         }
         public IActionResult AddNewStudentEntry()
         {
-            ViewModel viewmodel = new ViewModel { AllStudents=GetStudents(), AllQuestions=GetQuestions(), AllUniversities=GetUniversities(), OneStudent = new Student { } };
-            return View(viewmodel);
+            return View(new ViewModel { AllStudents=GetStudents(), AllQuestions=GetQuestions(), AllUniversities=GetUniversities(), OneStudent = new Student { } });
         }
 
         [HttpPost]
@@ -84,7 +93,7 @@ namespace ASPtask.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,EMail,Course,UniversityID")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("StudentID,FirstName,LastName,EMail,Course,UniversityID,Answers")] Student student)
         {
             if (id != student.StudentID) return NotFound();
             if (ModelState.IsValid)

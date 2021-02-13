@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <h2>Second step</h2>
         <p>
-            Then you'll be given ten questions about your experience in a foreign university.<br>
+            Then you'll be given some questions about your experience in a foreign university.<br>
             After submitting your response, you will be able to compare your opinion with others!
         </p>
     </div>
@@ -22,6 +22,8 @@
         <p>
             Hit the 'Start survey' button if you're familiar with our <a asp-area="" asp-controller="Home" asp-action="Privacy">privacy policy</a> and ready to share some experience!
         </p>
-        <p><a class="nav-link text-dark" asp-area="" asp-controller="Students" asp-action="AddNewStudentEntry">Take survey &raquo;</a></p>
+        <p>
+            <input type="button" value="Participate in the survey>>" class="btn btn-outline-warning" onclick="location.href='@Url.Action("AddNewStudentEntry", "Students")'" />
+        </p>
     </div>
 </div>

@@ -24,6 +24,9 @@
             <th>
                 University:
             </th>
+            <th>
+                Answers:
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -46,6 +49,20 @@
                 @Html.DisplayFor(modelItem => item.UniversityID)
             </td>
             <td>
+                @if (item.Answers != null) foreach (var answer in item.Answers)
+                    {
+
+                        @Html.DisplayFor(modelItem => answer.Key);
+                        <label> : </label>
+                        @Html.DisplayFor(modelItem => answer.Value);
+                        <br>
+                    }
+                else
+                {
+                    <label> EMPTY </label>
+                }
+            </td>
+            <td>
                 <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "Students", new { id=item.StudentID })'" />
                 <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "Students", new { id=item.StudentID })'" />
                 <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "Students", new { id=item.StudentID })'" />
@@ -55,5 +72,5 @@
     </tbody>
 </table>
 <div class="form-group">
-    <input type="button" value="Add" class="btn btn-outline-primary" onclick="location.href='@Url.Action("Create", "Students")'" />
+    <input type="button" value="Add" class="btn btn-outline-primary" onclick="location.href='@Url.Action("AddNewStudentEntry", "Students")'" />
 </div>
