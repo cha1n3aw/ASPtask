@@ -13,6 +13,9 @@
             <th>
                 Answer:
             </th>
+            <th>
+                Actions:
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -24,34 +27,46 @@
                     @item.QuestionContents
                 </td>
                 <td>
-                   @if (item.HasOptions)
+                    @if (item.HasOptions)
                     {
                         if (!item.MultipleSelect)
                             foreach (string option in item.Options.Split('&'))
                             {
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="@item.ID" id="@item.ID" value="option1">
-                                    <label class="form-check-label" for="@item.ID">@option</label>
-                                </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="@item.ID" id="@item.ID" value="option1">
+                        <label class="form-check-label" for="@item.ID">@option</label>
+                    </div>
+                    <br>
                             }
                         else
                             foreach (var option in item.Options.Split('&'))
                             {
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="@item.ID" id="@item.ID" value="option1">
-                                    <label class="form-check-label" for="@item.ID">@option</label>
-                                </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="@item.ID" id="@item.ID" value="option1">
+                        <label class="form-check-label" for="@item.ID">@option</label>
+                    </div>
+                    <br>
                             }
                     }
                     else
                     {
+                        <div class="col-sm-6">
                         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Answer">
+                        </div>
                     }
                 </td>
                 <td>
-                    <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "EditSurvey", new { id = item.ID })'" />
-                    <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "EditSurvey", new { id = item.ID })'" />
-                    <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "EditSurvey", new { id = item.ID })'" />
+                    <div class="row">
+                        <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "EditSurvey", new { id = item.ID })'" />
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "EditSurvey", new { id = item.ID })'" />
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "EditSurvey", new { id = item.ID })'" />
+                    </div>
                 </td>
             </tr>
         }

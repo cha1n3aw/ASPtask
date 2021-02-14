@@ -1,4 +1,4 @@
-﻿@model ASPtask.Models.Student
+﻿@model ASPtask.Models.ViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,40 +10,49 @@
     <div class="row">
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="StudentID" />
+            <input type="hidden" asp-for="OneStudent.StudentID" />
             <div class="form-group">
-                <input type="text" asp-for="FirstName" class="form-control" placeholder="First Name" required minlength="2" maxlength="16" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                <input type="text" asp-for="OneStudent.FirstName" class="form-control" placeholder="First Name" required minlength="2" maxlength="16" />
+                <span asp-validation-for="OneStudent.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name" required minlength="2" maxlength="16" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+                <input type="text" asp-for="OneStudent.LastName" class="form-control" placeholder="Last Name" required minlength="2" maxlength="16" />
+                <span asp-validation-for="OneStudent.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="email" asp-for="EMail" class="form-control" placeholder="E-Mail" required minlength="10" maxlength="30" />
-                <span asp-validation-for="EMail" class="text-danger"></span>
+                <input type="email" asp-for="OneStudent.EMail" class="form-control" placeholder="E-Mail" required minlength="10" maxlength="30" />
+                <span asp-validation-for="OneStudent.EMail" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Course" class="form-control" placeholder="Course" required />
-                <span asp-validation-for="Course" class="text-danger"></span>
+                <input asp-for="OneStudent.Course" class="form-control" placeholder="Course" required />
+                <span asp-validation-for="OneStudent.Course" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="UniversityID" class="form-control" placeholder="University ID" required />
-                <span asp-validation-for="UniversityID" class="text-danger"></span>
+                <input asp-for="OneStudent.UniversityID" class="form-control" placeholder="University ID" required />
+                <span asp-validation-for="OneStudent.UniversityID" class="text-danger"></span>
             </div>
 
-            @if (Model.Answers != null) foreach (var answer in Model.Answers)
-            {
-                <div class="mb-3 row">
-                    <label for="@answer.Key" class="col-sm-2 col-form-label">@answer.Key : </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="@answer.Key" name="@answer.Key" value="@Html.DisplayFor(modelItem => answer.Value)" />
+            @{
+            if (Model.OneStudent.Answers != null)
+                foreach (var question in Model.AllQuestions)
+                {
+                    List<string> str = new List<string>();
+                    Model.OneStudent.Answers.TryGetValue(question.ID, out str);
+                    <div class="form-group">
+                        @question.QuestionContents
                     </div>
-                </div>
-            }
-            else
-            {
-                <label> EMPTY </label>
+                    if (str != null)
+                    {
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="@question.ID" name="@question.ID" value="@Html.DisplayFor(modelItem => str)" />
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" id="@question.ID" name="@question.ID" />
+                    }
+                    <br>
+                }
             }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-outline-primary" />

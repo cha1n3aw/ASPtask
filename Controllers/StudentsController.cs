@@ -88,11 +88,11 @@ namespace ASPtask.Controllers
             if (id == null) return NotFound();
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
-            return View(student);
+            return View(new ViewModel { AllStudents = GetStudents(), AllUniversities = GetUniversities(), AllQuestions = GetQuestions(), OneStudent = student});
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Student student)
+        public async Task<IActionResult> Edit(ViewModel student)
         {
             Dictionary<int, List<string>> answers = new Dictionary<int, List<string>>();
             var coll = Request.Form.ToList();
@@ -105,15 +105,15 @@ namespace ASPtask.Controllers
                     Debug.WriteLine(str.Value);
                 }
             }
-            student.Answers = answers;
+            student.OneStudent.Answers = answers;
             try
             {
-                _context.Update(student);
+                _context.Update(student.OneStudent);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(student.StudentID)) return NotFound();
+                if (!StudentExists(student.OneStudent.StudentID)) return NotFound();
                 else throw;
             }
             return RedirectToAction("Index", "Students");
