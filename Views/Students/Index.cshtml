@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASPtask.Models.Student>
+﻿@model ASPtask.Models.ViewModel
 
 @{
     ViewData["Title"] = "List";
@@ -27,50 +27,61 @@
             <th>
                 Answers:
             </th>
+            <th>
+                Actions:
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EMail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Course)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UniversityID)
-            </td>
-            <td>
-                @if (item.Answers != null) foreach (var answer in item.Answers)
+        @foreach (var item in Model.AllStudents)
+        {
+            <tr>
+                <td>
+                    @item.FirstName
+                </td>
+                <td>
+                    @item.LastName
+                </td>
+                <td>
+                    @item.EMail
+                </td>
+                <td>
+                    @item.Course
+                </td>
+                <td>
+                    @{
+                        University unv = Model.AllUniversities.Find(x => x.UniversityID == item.UniversityID);
+                        if (unv != null) { <label>@unv.UniversityName</label> }
+                        else { <label>!NOTANSWERED!</label> }
+                    }
+                </td>
+                <td>
+                    @foreach (var question in Model.AllQuestions)
                     {
-
-                        @Html.DisplayFor(modelItem => answer.Key);
+                        @question.QuestionContents
                         <label> : </label>
-                        @Html.DisplayFor(modelItem => answer.Value);
+                        List<string> str = new List<string>();
+                        item.Answers.TryGetValue(question.ID, out str);
+                        if (str != null) foreach (string answ in str) { <label>@answ </label> }
+                        else { <label>!NOTANSWERED!</label> }
                         <br>
                     }
-                else
-                {
-                    <label> EMPTY </label>
-                }
-            </td>
-            <td>
-                <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "Students", new { id=item.StudentID })'" />
-                <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "Students", new { id=item.StudentID })'" />
-                <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "Students", new { id=item.StudentID })'" />
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    <div class="row">
+                        <input type="button" value="Edit" class="btn btn-outline-warning" onclick="location.href='@Url.Action("Edit", "Students", new { id=item.StudentID })'" />
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="button" value="Details" class="btn btn-outline-dark" onclick="location.href='@Url.Action("Details", "Students", new { id=item.StudentID })'" />
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="button" value="Delete" class="btn btn-outline-danger" onclick="location.href='@Url.Action("Delete", "Students", new { id=item.StudentID })'" />
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-<div class="form-group">
-    <input type="button" value="Add" class="btn btn-outline-primary" onclick="location.href='@Url.Action("AddNewStudentEntry", "Students")'" />
-</div>

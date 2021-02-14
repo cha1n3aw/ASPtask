@@ -18,9 +18,9 @@ namespace ASPtask.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(new ViewModel { AllStudents = GetStudents(), AllQuestions = GetQuestions(), AllUniversities = GetUniversities(), OneStudent = new Student { } });
         }
 
         public async Task<IActionResult> Details(int? id)
